@@ -107,7 +107,7 @@ class Grid:
 class Level:
 
     def __init__(self,title : str,grid : Grid,start_position : Position,arrival_position : Position
-    ,allowed_instructions : list,max_instructions_count : int, reference_solution_instructions : int, gems_count : int,
+    ,allowed_instructions : list,instructions_count : int,max_instructions:int, reference_solution_instructions : int, gems_count : int,
     walls_count : int):
 
         self.title = title
@@ -115,7 +115,8 @@ class Level:
         self.start_position = start_position
         self.arrival_position = arrival_position
         self.allowed_instructions = allowed_instructions
-        self.max_instructions_count = max_instructions_count
+        self.instructions_count = instructions_count
+        self.max_instructions = max_instructions
         self.reference_solution_instructions = reference_solution_instructions
         self.gems_count = gems_count
         self.walls_count = walls_count
@@ -146,7 +147,7 @@ class GameInterface:
 
             print("\n")
 
-    def display_level(self):
+   def display_level(self):
 
         print("\n"+10*' '+self.level.title+"\n\n")
         self.display_grid() #The display is not optimized for grids smaller than 5×5.
