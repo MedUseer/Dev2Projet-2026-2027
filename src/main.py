@@ -68,7 +68,7 @@ class Cell:
 
 class Grid:
 
-    def __init__(self,width : int,height : int):
+    def __init__(self,width:int = 5,height:int = 5 ):
 
         self.width = width
         self.height = height
@@ -100,7 +100,6 @@ class Grid:
             doc soon ...
         """
         if new_type != "empty":
-            self.grid[row][col].type = new_type # change the type
+            self.grid[row][col].type = new_type # change the type of cell Object
         
         return  f"| {dico_type_cells[self.grid[row][col].type]} |"
-
