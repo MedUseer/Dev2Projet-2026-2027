@@ -147,9 +147,12 @@ class GameInterface:
 
             print("\n")
 
-   def display_level(self):
+    def display_level(self):
 
-        print("\n"+10*' '+self.level.title+"\n\n")
+        
+        print("\n"+5*' '+self.level.title+10*' '+"Nombre d'instructions utilisée "+
+        str(self.level.instructions_count)+'/'+str(self.level.max_instructions)+"\n\n")
+
         self.display_grid() #The display is not optimized for grids smaller than 5×5.
 
         # button run complete and run step by step
