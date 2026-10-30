@@ -54,7 +54,7 @@ class Position:
 
 class Cell:
     
-    def __init__(self,position : Position,type="empty"):
+    def __init__(self,position : Position,type : dico_type_cells = "empty"):
         self.position = position
         self.type = type
 
