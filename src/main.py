@@ -102,4 +102,22 @@ class Grid:
         if new_type != "empty":
             self.grid[row][col].type = new_type # change the type of cell Object
         
-        return  f"| {dico_type_cells[self.grid[row][col].type]} |"
+        return  f"| {dico_type_cells[self.grid[row][col].type]} |" 
+
+class Level:
+
+    def __init__(self,title : str,grid : Grid,start_position : Position,arrival_position : Position
+    ,allowed_instructions : list,max_instructions_count : int, reference_solution_instructions : int, gems_count : int,
+    walls_count : int):
+
+        self.title = title
+        self.grid = grid
+        self.start_position = start_position
+        self.arrival_position = arrival_position
+        self.allowed_instructions = allowed_instructions
+        self.max_instructions_count = max_instructions_count
+        self.reference_solution_instructions = reference_solution_instructions
+        self.gems_count = gems_count
+        self.walls_count = walls_count
+
+    #methods ...
