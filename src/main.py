@@ -6,7 +6,7 @@ dico_type_cells = {
         "robot" : emoji.emojize(":robot:"),
         "arrival":emoji.emojize(":round_pushpin:"),
         "empty":"_"
-}
+} #
 
 """
 MEMO tech - type of cells
@@ -64,3 +64,43 @@ class Cell:
             doc soon ...
         """
         return self.type
+
+
+class Grid:
+
+    def __init__(self,width : int,height : int):
+
+        self.width = width
+        self.height = height
+        self.grid = Grid
+
+    #methods
+
+    def get_init_grid(self):
+    
+        """
+            doc soon ...
+        """
+        grid = []
+
+        for row in range(self.width):
+            grid.append([])
+            for col in range(self.height):
+                position_cell = Position(row,col) # create a position cell
+                cell = Cell(position_cell,"empty") # create a cell
+                grid[row].append(cell) # add each cell on array
+                
+        self.grid = grid 
+
+        return self.grid
+
+    def set_element_position(self,row : int ,col : int,new_type : dico_type_cells = "empty" ):    
+
+        """
+            doc soon ...
+        """
+        if new_type != "empty":
+            self.grid[row][col].type = new_type # change the type
+        
+        return  f"| {dico_type_cells[self.grid[row][col].type]} |"
+
