@@ -121,3 +121,36 @@ class Level:
         self.walls_count = walls_count
 
     #methods ...
+
+class GameInterface:
+
+    def __init__(self,level:Level):
+        self.level = level
+
+    #methods
+    def get_grid(self):
+        return self.level.grid.grid
+
+    def display_grid(self):
+
+        grid = self.level.grid.grid
+        compteur = 0
+        for row in range(len(grid)):
+
+            for col in range(len(grid[row])):
+                
+                    print(self.level.grid.set_element_position(row,col),end=' ')
+            if compteur < len(self.level.allowed_instructions):
+                print('  '*4+self.level.allowed_instructions[compteur],end='')
+                compteur+=1
+
+            print("\n")
+
+    def display_level(self):
+
+        print("\n"+10*' '+self.level.title+"\n\n")
+        self.display_grid() #The display is not optimized for grids smaller than 5×5.
+
+        # button run complete and run step by step
+        print("\n",emoji.emojize(":play_button:")," lancement complet") 
+        print("\n",emoji.emojize(":gear:")," pas suivant","\n")
