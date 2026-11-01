@@ -38,7 +38,7 @@ cd docs
 ```
 #### 4.2 Installer les dépendances
 ```bash
-python3 -R requirements.txt
+pip3 install -r requirements.txt
 ```
 ### 5. Lancer le projet
 #### 5.1 Aller à la racine du projet
