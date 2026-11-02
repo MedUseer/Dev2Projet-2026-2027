@@ -127,33 +127,35 @@ class Level:
 
 class GameInterface:
 
-    def __init__(self,level:Level):
-        self.level = level
+    def __init__(self,level_name:Level):
+        self.level_name = level_name
 
     #methods
     def get_grid(self):
-        return self.level.grid.grid
+        return self.level_name.grid.grid
 
     def display_grid(self):
 
-        grid = self.level.grid.grid
+        grid = self.level_name.grid.grid
         compteur = 0
         for row in range(len(grid)):
 
             for col in range(len(grid[row])):
                 
-                    print(self.level.grid.set_element_position(row,col),end=' ')
-            if compteur < len(self.level.allowed_instructions):
-                print('  '*3+self.level.allowed_instructions[compteur],end='')
+                    print(self.level_name.grid.set_element_position(row,col),end=' ')
+            if compteur < len(self.level_name.allowed_instructions):
+                print('  '*3+self.level_name.allowed_instructions[compteur],end='')
                 compteur+=1
 
             print("\n")
 
     def display_level(self):
 
-        
-        print("\n"+5*' '+self.level.title+10*' '+"Nombre d'instructions utilisée "+
-        str(self.level.instructions_count)+'/'+str(self.level.max_instructions)+"\n\n")
+        """
+            doc soon ..
+        """
+        print("\n"+5*' '+self.level_name.title+10*' '+"Nombre d'instructions utilisée "+
+        str(self.level_name.instructions_count)+'/'+str(self.level_name.max_instructions)+"\n\n")
 
         print(35*' ',"Instruction disponible\n")
 
@@ -163,7 +165,7 @@ class GameInterface:
         print("\n",emoji.emojize(":play_button:")," lancement complet") 
         print("\n",emoji.emojize(":gear:")," pas suivant","\n")
 
-# démo MVP
+# demo MVP
 
 grid = Grid(5,5) # create a grid
 
@@ -182,7 +184,7 @@ grid.set_element_position(arrival_robot_position.position.row,arrival_robot_posi
 grid.set_element_position(gem1_position.position.row,gem1_position.position.column,'gem')
 grid.set_element_position(gem2_position.position.row,gem2_position.position.column,'gem')
 
-level1 = Level(titre,grid,start_robot_position,arrival_robot_position,[' - avancer',' - tourner à droite',' - tourner à gauche'],3,6,8,2,0)
+level_demo = Level(titre,grid,start_robot_position,arrival_robot_position,[' - avancer',' - tourner à droite',' - tourner à gauche'],3,6,8,2,0)
 
-display = GameInterface(level1)
+display = GameInterface(level_demo)
 display.display_level()
