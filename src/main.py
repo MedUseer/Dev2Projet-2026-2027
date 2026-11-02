@@ -144,7 +144,7 @@ class GameInterface:
                 
                     print(self.level.grid.set_element_position(row,col),end=' ')
             if compteur < len(self.level.allowed_instructions):
-                print('  '*4+self.level.allowed_instructions[compteur],end='')
+                print('  '*3+self.level.allowed_instructions[compteur],end='')
                 compteur+=1
 
             print("\n")
@@ -155,8 +155,34 @@ class GameInterface:
         print("\n"+5*' '+self.level.title+10*' '+"Nombre d'instructions utilisée "+
         str(self.level.instructions_count)+'/'+str(self.level.max_instructions)+"\n\n")
 
+        print(35*' ',"Instruction disponible\n")
+
         self.display_grid() #The display is not optimized for grids smaller than 5×5.
 
         # button run complete and run step by step
         print("\n",emoji.emojize(":play_button:")," lancement complet") 
         print("\n",emoji.emojize(":gear:")," pas suivant","\n")
+
+# démo MVP
+
+grid = Grid(5,5) # create a grid
+
+grid.get_init_grid() # init the cells 
+
+titre = "Premiers pas !"
+
+start_robot_position = grid.grid[4][0]
+arrival_robot_position = grid.grid[0][4]
+
+gem1_position = grid.grid[1][3]
+gem2_position = grid.grid[2][0]
+
+grid.set_element_position(start_robot_position.position.row,start_robot_position.position.column,'robot')
+grid.set_element_position(arrival_robot_position.position.row,arrival_robot_position.position.column,'arrival')
+grid.set_element_position(gem1_position.position.row,gem1_position.position.column,'gem')
+grid.set_element_position(gem2_position.position.row,gem2_position.position.column,'gem')
+
+level1 = Level(titre,grid,start_robot_position,arrival_robot_position,[' - avancer',' - tourner à droite',' - tourner à gauche'],3,6,8,2,0)
+
+display = GameInterface(level1)
+display.display_level()
