@@ -122,6 +122,8 @@ class Level:
         self.walls_count = walls_count
 
     #methods ...
+    def is_position_valid(position : Position):
+        pass
 
 class GameInterface:
 
