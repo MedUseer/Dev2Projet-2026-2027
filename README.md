@@ -31,7 +31,7 @@ source env\Scripts\activate
 source env/bin/activate
 ```
 
-### 4. Installation des dépendances 'emoji'
+### 4. Installation des dépendances
 #### 4.1 Aller dans le dossier docs contenant le fichier requierments.txt
 ```bash
 cd docs
