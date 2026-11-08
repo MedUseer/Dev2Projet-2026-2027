@@ -21,9 +21,9 @@ python3 -m venv env
 ```
 
 ### 3. Activation de l'environnement de développement
-#### 3.1 Windows
+#### 3.1 Windows PowerShell
 ```bash
-source env\Scripts\activate
+.\env\Scripts\Activate.ps1
 ```
 
 #### 3.2 Linux/MacOs
