@@ -73,7 +73,7 @@ class Grid:
 
         return self.grid
 
-    def set_element_position(self,row : int ,col : int):    
+    def set_element_position(self,row : int ,col : int,new_type : dico_type_cells = "empty" ):    
 
         """
             doc soon ...
