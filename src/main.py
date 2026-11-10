@@ -73,7 +73,7 @@ class Grid:
 
         return self.grid
 
-    def set_element_position(self,row : int ,col : int,new_type : dico_type_cells = "empty" ):    
+    def set_element_position(self,row : int ,col : int):    
 
         """
             doc soon ...
@@ -130,9 +130,6 @@ class GameInterface:
 
     def display_level(self):
 
-        """
-            doc soon ..
-        """
         print("\n"+5*' '+self.level_name.title+10*' '+"Nombre d'instructions utilisée "+
         str(self.level_name.instructions_count)+'/'+str(self.level_name.max_instructions)+"\n\n")
 
@@ -145,7 +142,7 @@ class GameInterface:
         print("\n",emoji.emojize(":gear:")," pas suivant","\n")
 
 # demo MVP
-
+"""
 grid = Grid(5,5) # create a grid
 
 grid.get_init_grid() # init the cells 
@@ -167,3 +164,4 @@ level_demo = Level(titre,grid,start_robot_position,arrival_robot_position,[' - a
 
 display = GameInterface(level_demo)
 display.display_level()
+"""
