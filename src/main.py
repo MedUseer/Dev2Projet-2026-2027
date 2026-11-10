@@ -31,27 +31,6 @@ gem - > U+1F7E9 code unicode
 """
 # MVP - version 1
 
-class Position:
-
-    def __init__(self,row : int,column : int):
-        self.row = row
-        self.column = column
-
-    #methods
-    
-    def get_row(self):
-        """
-            doc soon ...
-        """
-        return self.row
-    
-    def get_column(self):
-        """
-            doc soon ...
-        """
-        return self.column
-
-
 class Cell:
     
     def __init__(self,position : Position,type : dico_type_cells = "empty"):
