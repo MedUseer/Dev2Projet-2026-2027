@@ -1,169 +1,22 @@
-import emoji # import the emoji library for display.
+dico_direction = {}
 
-dico_type_cells = {
-        "gem": "\033[32m▪\033[0m", # code ANSI
-        "wall" : emoji.emojize(":rock:"),
-        "robot" : emoji.emojize(":robot:"),
-        "arrival":emoji.emojize(":round_pushpin:"),
-        "empty":"_"
-} #
-
-"""
-MEMO tech - type of cells
-
-- 📍 --> symbol for arrival
-
-- 🪨 -> symbol for wall
-
-- 🤖 -> symbole for start/robot
-
-- ▪ (green)-> symbol for gem
-
-
-design example for grid
-|_| |_| |_|
-|_| |_| |_|
-|_| |_| |_|
-
-gem - > U+1F7E9 code unicode
-
-
-"""
-# MVP - version 1
-
-class Cell:
+class Robot:
+    def __init__(self, current_position, direction : dico_direction):
+        self.current_position = current_position
+        self.direction = direction
     
-    def __init__(self,position : Position,type : dico_type_cells = "empty"):
-        self.position = position
-        self.type = type
-
-    #methods
-    def get_type(self):
-        """
-            doc soon ...
-        """
-        return self.type
-
-
-class Grid:
-
-    def __init__(self,width:int = 5,height:int = 5 ):
-
-        self.width = width
-        self.height = height
-        self.grid = Grid
-
-    #methods
-
-    def get_init_grid(self):
-    
-        """
-            doc soon ...
-        """
-        grid = []
-
-        for row in range(self.width):
-            grid.append([])
-            for col in range(self.height):
-                position_cell = Position(row,col) # create a position cell
-                cell = Cell(position_cell,"empty") # create a cell
-                grid[row].append(cell) # add each cell on array
-                
-        self.grid = grid 
-
-        return self.grid
-
-    def set_element_position(self,row : int ,col : int,new_type : dico_type_cells = "empty" ):    
-
-        """
-            doc soon ...
-        """
-        if new_type != "empty":
-            self.grid[row][col].type = new_type # change the type of cell Object
+    def move_forward(self) :
         
-        return  f"| {dico_type_cells[self.grid[row][col].type]} |" 
-
-class Level:
-
-    def __init__(self,title : str,grid : Grid,start_position : Position,arrival_position : Position
-    ,allowed_instructions : list,instructions_count : int,max_instructions:int, reference_solution_instructions : int, gems_count : int,
-    walls_count : int):
-
-        self.title = title
-        self.grid = grid
-        self.start_position = start_position
-        self.arrival_position = arrival_position
-        self.allowed_instructions = allowed_instructions
-        self.instructions_count = instructions_count
-        self.max_instructions = max_instructions
-        self.reference_solution_instructions = reference_solution_instructions
-        self.gems_count = gems_count
-        self.walls_count = walls_count
-
-    #methods ...
-    def is_position_valid(position : Position):
         pass
 
-class GameInterface:
+    def move_left(self):
+        
+        pass
 
-    def __init__(self,level_name:Level):
-        self.level_name = level_name
+    def turn_right(self):
+        
+        pass
 
-    #methods
-    def get_grid(self):
-        return self.level_name.grid.grid
-
-    def display_grid(self):
-
-        grid = self.level_name.grid.grid
-        compteur = 0
-        for row in range(len(grid)):
-
-            for col in range(len(grid[row])):
-                
-                    print(self.level_name.grid.set_element_position(row,col),end=' ')
-            if compteur < len(self.level_name.allowed_instructions):
-                print('  '*3+self.level_name.allowed_instructions[compteur],end='')
-                compteur+=1
-
-            print("\n")
-
-    def display_level(self):
-
-        """
-            doc soon ..
-        """
-        print("\n"+5*' '+self.level_name.title+10*' '+"Nombre d'instructions utilisée "+
-        str(self.level_name.instructions_count)+'/'+str(self.level_name.max_instructions)+"\n\n")
-
-        print(35*' ',"Instruction disponible\n")
-
-        self.display_grid() #The display is not optimized for grids smaller than 5×5.
-
-        # button run complete and run step by step
-        print("\n",emoji.emojize(":play_button:")," lancement complet") 
-        print("\n",emoji.emojize(":gear:")," pas suivant","\n")
-
-# demo MVP
-
-grid = Grid(5,5) # create a grid
-
-grid.get_init_grid() # init the cells 
-
-titre = "Premiers pas !"
-
-start_robot_position = grid.grid[4][0]
-arrival_robot_position = grid.grid[0][4]
-
-gem1_position = grid.grid[1][3]
-gem2_position = grid.grid[2][0]
-
-grid.set_element_position(start_robot_position.position.row,start_robot_position.position.column,'robot')
-grid.set_element_position(arrival_robot_position.position.row,arrival_robot_position.position.column,'arrival')
-grid.set_element_position(gem1_position.position.row,gem1_position.position.column,'gem')
-grid.set_element_position(gem2_position.position.row,gem2_position.position.column,'gem')
-
-level_demo = Level(titre,grid,start_robot_position,arrival_robot_position,[' - avancer',' - tourner à droite',' - tourner à gauche'],3,6,8,2,0)
-
-display = GameInterface(level_demo)
-display.display_level()
+    def collect_gems(self, type_cells: dico_type_cells = "empty"):
+        
+        pass
