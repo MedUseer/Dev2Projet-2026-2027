@@ -4,7 +4,7 @@
 
 - **Python** : langage de programmation principal.
 - **Emoji** : bibliothèque utilisée pour l'affichage des emojis dans le jeu.
-
+- **Tkinter** : librairie utilisée pour la GUI(l'interface graphique).
 ## Installation
 
 ### 1. Cloner le projet
