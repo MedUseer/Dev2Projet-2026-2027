@@ -1,5 +1,6 @@
 class Cell:
-
+    """Represent one cell of the grid."""
+    
     def __init__(self,type_cell : str) -> None:
         self.__type_cell = type_cell 
     
