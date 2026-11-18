@@ -1,7 +1,7 @@
 class Cell:
     """Represent one cell of the grid."""
     
-    def __init__(self,type_cell : str) -> None:
+    def __init__(self,type_cell : str = "empty") -> None:
         self.__type_cell = type_cell 
     
     @property
