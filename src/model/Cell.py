@@ -11,3 +11,9 @@ class Cell:
             POST: return a String which is the type of cell
         """
         return self.__type_cell
+
+    @type_cell.setter
+    def type_cell(self,value : str) -> None:
+        """
+        """
+        self.__type_cell = value
