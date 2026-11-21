@@ -86,16 +86,20 @@ class Grid:
 
 #   ===== Execution Classes =====
 
-class Insturction:
+class Instruction:
     def __init__(self, reapeat_count:int, children_instructions : list, type : instructions_type = "forward") :
         self.type = type
         self.reapeat_count = reapeat_count
         self.children_instructions = children_instructions
 
+     #  instruction list format --> instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
+     
+     #methods
+
 class Program:
     
-    def __init__(self, insturctions: list, failed_step:int, current_step:int, error_message:str):
-        self.insturctions = insturctions
+    def __init__(self, instructions: list, failed_step:int = 0, current_step:int = 0, error_message:str = ""):
+        self.instructions = instructions
         self.failed_step = failed_step
         self.current_step = current_step
         self.error_message = error_message
@@ -104,29 +108,29 @@ class Program:
     
     def run_all(self) -> bool:
         """
-        Execute all program insturctions in order until completion or an error occurs.
+        Execute all program instructions in order until completion or an error occurs.
 
         PRE:
-            - The program has at least one insturction (self.insturctions is non-empty).
+            - The program has at least one instructions (self.instructions is non-empty).
             - The associated robot and level (grid, walls, gems, goal) are properly initialized.
         POST:
-            - Sequentially executes all insturctions in the program (RM-03).
+            - Sequentially executes all instructions in the program (RM-03).
             - Updates the robot's state (position, direction) and execution state (current_step, failed_step, error_message).
             - Stops if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
             - Returns True if everything succeeds, False if an error occurs.
         """
-        print(f"{self.insturctions}") 
+        print(f"{self.instructions}") 
     
     def run_step_by_step(self) -> bool:
         """
-        Execute a single program insturction at the current step (current_step).
+        Execute a single program instruction at the current step (current_step).
 
         PRE:
-            - current_step must be a valid integer between 0 and len(self.insturctions) - 1 (inclusive).
+            - current_step must be a valid integer between 0 and len(self.instructions) - 1 (inclusive).
             - The robot and level are initialized.
         POST:
-            - Executes the insturction pointed to by self.current_step (RM-03).
-            - Increments self.current_step by 1 if insturction execution succeeds.
+            - Executes the instruction pointed to by self.current_step (RM-03).
+            - Increments self.current_step by 1 if instruction execution succeeds.
             - Updates failed_step and error_message if a collision (RM-06) or going out of bounds occurs.
             - Returns True if the step succeeds, False if blocked or on failure.
         """
@@ -198,12 +202,12 @@ class Robot:
 
 if __name__ == "__main__" :
     
-    instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
+    raw_instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
     
-    prog = Program(instruction, failed_step=0, current_step=0, error_message="")
-    print(prog.insturctions)
-    prog.run_all()
+    prog = Program(raw_instruction, failed_step=0, current_step=0, error_message="")
+    print(prog.instructions)
+    # prog.run_all()
     
-    print(dico_type_cells)
-    print(dico_direction)
-    print(instructions_type)
+    # print(dico_type_cells)
+    # print(dico_direction)
+    # print(instructions_type)
