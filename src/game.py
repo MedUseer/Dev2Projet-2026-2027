@@ -64,9 +64,9 @@ class Grid:
     
         grid = []
 
-        for row in range(self.width):
+        for row in range(self.height):
             grid.append([])
-            for col in range(self.height):
+            for col in range(self.width):
                 position_cell = Position(row,col) # create a position cell
                 cell = Cell(position_cell,"empty") # create a cell
                 grid[row].append(cell) # add each cell on array
