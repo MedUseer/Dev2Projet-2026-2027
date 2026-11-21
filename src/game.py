@@ -9,10 +9,10 @@ instructions_type = {
 }
 
 dico_direction = {
-    "up": emoji.emojize(":up_arrow:"),
-    "down": emoji.emojize(":down_arrow:"),
-    "right": emoji.emojize(":right_arrow:"),
-    "left": emoji.emojize(":left_arrow:"),
+    "up": emoji.emojize(":up_arrow:", variant="text_type"),
+    "down": emoji.emojize(":down_arrow:", variant="text_type"),
+    "right": emoji.emojize(":right_arrow:", variant="text_type"),
+    "left": emoji.emojize(":left_arrow:", variant="text_type"),
 }
 
 dico_type_cells = {
@@ -154,19 +154,45 @@ class Robot:
     #methods
     
     def move_forward(self):
-        
+        """
+
+        PRE:
+            - 
+        POST:
+            -
+        """
         pass
 
     def turn_left(self):
+        """
+
+        PRE:
+            - 
+        POST:
+            -
+        """
+        
         
         pass
 
     def turn_right(self):
-        
+        """
+
+        PRE:
+            - 
+        POST:
+            -
+        """
         pass
 
     def collect_gems(self, type_cells: dico_type_cells = "gem"):
-        
+        """
+
+        PRE:
+            - 
+        POST:
+            -
+        """
         pass
     
 
