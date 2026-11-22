@@ -25,17 +25,15 @@ def create_level(interface : GameInterface,level : Level) -> None:
 
     dimension = input("Dimensions pour la grille (ex. 5x5) : ").lower()
     #error manage missed
-    width,height = dimension.split('x')
+    width,height = parsing(dimension,"x")
 
-    grid = Grid(int(width),int(height))
+    grid = Grid(width,height)
     grid.init_grid()
 
     interface.window.after(0,interface.create_grid,grid.grid)
 
     start_position = input("Position de départ du robot (ex. 2,2) : ")
     #error manage missed
-    row_robot,col_robot = start_position.split(',')
-    row_robot = int(row_robot)
-    col_robot = int(col_robot)
+    row_robot,col_robot = parsing(start_position,",")
     grid.grid[row_robot][col_robot].type_cell = "robot"
     interface.window.after(0,interface.create_grid,grid.grid)
