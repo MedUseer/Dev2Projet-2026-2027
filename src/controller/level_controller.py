@@ -2,6 +2,15 @@ from model.Level import Level
 from model.Grid import Grid
 from view.GameInterface import GameInterface
 
+def parsing(element : str,spliter : str) -> tuple:
+    elements : list = []
+    
+    for el in element.split(spliter):
+        elements.append(int(el))
+
+    return elements[0],elements[1]
+
+
 def create_level(interface : GameInterface,level : Level) -> None:
 
     """
