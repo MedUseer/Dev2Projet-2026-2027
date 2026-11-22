@@ -23,7 +23,7 @@ dico_type_cells = {
         "empty":"_"
 } 
 
-
+# temp MVP classes for testing
 class Position:
 
     def __init__(self,row : int,column : int):
@@ -119,7 +119,7 @@ class Program:
             - Stops if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
             - Returns True if everything succeeds, False if an error occurs.
         """
-        print(f"{self.instructions}") 
+        pass
     
     def run_step_by_step(self) -> bool:
         """
@@ -151,11 +151,26 @@ class Program:
 
 
 class Robot:
-    def __init__(self, current_position, direction : dico_direction = "up"):
+    # Init clockwise direction
+    clockwise_direction = ["up", "right", "down", "left"]       
+    
+    def __init__(self, current_position : Position, direction : dico_direction = "up"):
+        if direction not in dico_direction :
+            raise ValueError(f"Direction invalide : {direction}")
         self.current_position = current_position
         self.direction = direction
+        self.collect_gems = 0
     
     #methods
+    
+    def get_direction_symbol(self) -> str:
+        """
+        
+        """
+        
+        return dico_direction[self.direction]
+    
+    
     
     def move_forward(self):
         """
@@ -206,7 +221,6 @@ if __name__ == "__main__" :
     
     prog = Program(raw_instruction, failed_step=0, current_step=0, error_message="")
     print(prog.instructions)
-    # prog.run_all()
     
     # print(dico_type_cells)
     # print(dico_direction)
