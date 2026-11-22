@@ -169,7 +169,7 @@ class Robot:
         """
         return dico_direction[self.direction]
     
-    def get_next_position(self):
+    def get_next_position(self) -> Position:
         """
         
         """
@@ -187,45 +187,29 @@ class Robot:
             
         return Position(row, col)
     
-    def move_forward(self):
+    def move_forward(self) -> bool:
         """
 
-        PRE:
-            - 
-        POST:
-            -
         """
-        pass
+        self.current_position = self.get_next_position()
 
     def turn_left(self):
         """
 
-        PRE:
-            - 
-        POST:
-            -
         """
-        
-        
-        pass
+        idx = self.clockwise_direction.index(self.direction)
+        self.direction = self.clockwise_direction[(idx - 1) % 4]    # formula magic with list clockwise_direction, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
 
     def turn_right(self):
         """
 
-        PRE:
-            - 
-        POST:
-            -
         """
-        pass
+        idx = self.clockwise_direction.index(self.direction)
+        self.direction = self.clockwise_direction[(idx + 1) % 4]
 
     def collect_gems(self, type_cells: dico_type_cells = "gem"):
         """
 
-        PRE:
-            - 
-        POST:
-            -
         """
         pass
     
