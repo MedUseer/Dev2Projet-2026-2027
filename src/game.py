@@ -193,25 +193,28 @@ class Robot:
         """
         self.current_position = self.get_next_position()
 
-    def turn_left(self):
+    def turn_left(self) -> bool:
         """
 
         """
         idx = self.clockwise_direction.index(self.direction)
         self.direction = self.clockwise_direction[(idx - 1) % 4]    # formula magic with list clockwise_direction, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
 
-    def turn_right(self):
+    def turn_right(self) -> bool:
         """
 
         """
         idx = self.clockwise_direction.index(self.direction)
         self.direction = self.clockwise_direction[(idx + 1) % 4]
 
-    def collect_gems(self, type_cells: dico_type_cells = "gem"):
+    def collect_gems(self, type_cells: dico_type_cells) -> bool:
         """
 
         """
-        pass
+        if type_cells == "gem":
+            self.collect_gems += 1
+            return True
+        return False
     
 
 if __name__ == "__main__" :
