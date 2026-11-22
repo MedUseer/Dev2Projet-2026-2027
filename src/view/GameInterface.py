@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import font as tf
-from model.Grid import Grid " import the model"
+from model.Grid import Grid #import the model
 
 class GameInterface:
     """Represent a GUI interface"""
