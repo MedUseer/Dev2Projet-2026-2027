@@ -10,7 +10,8 @@ class GameInterface:
         self.font_text = tf.Font(family="Poppins",size=15)
         self.type_cells = {
             "" : "",
-            "robot":'🤖'
+            "robot":'🤖',
+            "arrival" : 'ARRIVER'
         }
 
     def create_header(self,title):
