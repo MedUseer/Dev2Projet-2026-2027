@@ -167,10 +167,25 @@ class Robot:
         """
         
         """
-        
         return dico_direction[self.direction]
     
+    def get_next_position(self):
+        """
+        
+        """
+        row = self.current_position.row
+        col = self.current_position.column    
     
+        if self.direction == "up":
+            row -= 1
+        elif self.direction == "down":
+            row += 1
+        elif self.direction == "left":
+            col -= 1
+        elif self.direction == "right":
+            col += 1
+            
+        return Position(row, col)
     
     def move_forward(self):
         """
