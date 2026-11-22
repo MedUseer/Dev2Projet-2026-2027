@@ -260,11 +260,37 @@ class Program:
 
 if __name__ == "__main__" :
     
-    raw_instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
-    
-    prog = Program(raw_instruction, failed_step=0, current_step=0, error_message="")
+    # 5x5，depart (4, 0)，arrival (3, 1)， gem(3, 0)）
+    grid = Grid(5, 5)
+    grid.get_init_grid()
+    grid.set_element_position(3, 0, "gem")
+    grid.set_element_position(2, 2, "wall")
+    grid.set_element_position(3, 1, "arrival")
+
+    level = Level(grid, start_position=Position(4, 0), arrival_position=Position(3, 1))
+    robot = Robot(current_position=Position(4, 0), direction="up")
+
+    raw_instructions = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
+    prog = Program(robot=robot, level=level, instructions=raw_instructions)
+
+    print("=== 1. Init ===")
     print(prog.instructions)
-    
-    # print(dico_type_cells)
-    # print(dico_direction)
-    # print(instructions_type)
+    print(f"robot pos init: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
+    print("reached?:", prog.reached())  # -> False
+
+    print("\n=== 2. forward and collect ===")
+    robot.move_forward()  # (4, 0) -> (3, 0)
+    print(f"pos after forward: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
+    cell_type = level.grid.grid[robot.current_position.get_row()][robot.current_position.get_column()].get_type() 
+    print(cell_type) # type of (3, 0) -> gem
+    print("gem:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
+
+    print("\n=== 3. turn right, left and reached ===")
+    robot.turn_right()    # up -> right
+    print("direction after turn right:", robot.direction, robot.get_direction_symbol())
+    robot.move_forward()  # (3, 0) -> (3, 1) arrival
+    print(f"pos after forward: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
+    print("reached? :", prog.reached())  # -> True
+
+    robot.turn_left()     # right -> up
+    print("direction after turn left:", robot.direction, robot.get_direction_symbol())
