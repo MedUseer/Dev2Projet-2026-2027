@@ -59,7 +59,7 @@ class Level:
     @property
     def reference_solution_instructions_count(self) -> int:
         return self.__reference_solution_instructions_count
-    @reference_solution_instructions_count
+    @reference_solution_instructions_count.setter
     def reference_solution_instructions_count(self, value : int) -> None:
         self.__reference_solution_instructions_count = value
 
