@@ -82,74 +82,24 @@ class Grid:
         
         return  f"| {dico_type_cells[self.grid[row][col].type]} |" 
 
+class Level:
+    """
+    Temporary class Level, used only for local testing of F-03; replace when merging the code
+    """
+    def __init__(self, grid: Grid, start_position: Position, arrival_position: Position):
+        self.grid = grid
+        self.start_position = start_position
+        self.arrival_position = arrival_position
+
+    def is_position_valid(self, position: Position) -> bool:
+        row = position.get_row()
+        col = position.get_column()
+        if not (0 <= row < self.grid.height and 0 <= col < self.grid.width):
+            return False
+        return self.grid.grid[row][col].get_type() != "wall"
 
 
 #   ===== Execution Classes =====
-
-class Instruction:
-    def __init__(self, reapeat_count:int, children_instructions : list, type : instructions_type = "forward") :
-        self.type = type
-        self.reapeat_count = reapeat_count
-        self.children_instructions = children_instructions
-
-     #  instruction list format --> instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
-     
-     #methods
-
-class Program:
-    
-    def __init__(self, instructions: list, failed_step:int = 0, current_step:int = 0, error_message:str = ""):
-        self.instructions = instructions
-        self.failed_step = failed_step
-        self.current_step = current_step
-        self.error_message = error_message
-    
-     #methods
-    
-    def run_all(self) -> bool:
-        """
-        Execute all program instructions in order until completion or an error occurs.
-
-        PRE:
-            - The program has at least one instructions (self.instructions is non-empty).
-            - The associated robot and level (grid, walls, gems, goal) are properly initialized.
-        POST:
-            - Sequentially executes all instructions in the program (RM-03).
-            - Updates the robot's state (position, direction) and execution state (current_step, failed_step, error_message).
-            - Stops if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
-            - Returns True if everything succeeds, False if an error occurs.
-        """
-        pass
-    
-    def run_step_by_step(self) -> bool:
-        """
-        Execute a single program instruction at the current step (current_step).
-
-        PRE:
-            - current_step must be a valid integer between 0 and len(self.instructions) - 1 (inclusive).
-            - The robot and level are initialized.
-        POST:
-            - Executes the instruction pointed to by self.current_step (RM-03).
-            - Increments self.current_step by 1 if instruction execution succeeds.
-            - Updates failed_step and error_message if a collision (RM-06) or going out of bounds occurs.
-            - Returns True if the step succeeds, False if blocked or on failure.
-        """
-        pass
-    
-    def reached(self) -> bool:
-        """
-        Check whether the robot has reached the level's goal position (arrival_position).
-
-        PRE:
-            - The level has a defined goal cell (arrival_position / RM-08).
-            - The robot's current position (robot.current_position) must be initialized.
-        POST:
-            - Compares the robot's current position with the level's goal cell (D-01.3).
-            - Returns True if the coordinates match exactly, False otherwise.
-        """
-        pass
-
-
 class Robot:
     # Init clockwise direction
     clockwise_direction = ["up", "right", "down", "left"]       
@@ -198,7 +148,7 @@ class Robot:
 
         """
         idx = self.clockwise_direction.index(self.direction)
-        self.direction = self.clockwise_direction[(idx - 1) % 4]    # formula magic with list clockwise_direction, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
+        self.direction = self.clockwise_direction[(idx - 1) % 4]    # formula magic for clockwise, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
 
     def turn_right(self) -> bool:
         """
@@ -215,6 +165,86 @@ class Robot:
             self.collect_gems += 1
             return True
         return False
+
+class Instruction:
+    def __init__(self, reapeat_count:int, children_instructions : list, type : instructions_type = "forward") :
+        self.type = type
+        self.reapeat_count = reapeat_count
+        self.children_instructions = children_instructions
+
+     #  instruction list format --> instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
+     
+     #methods
+
+class Program:
+    
+    def __init__(self, robot : Robot, level : Level, instructions=None):
+        self.robot = robot
+        self.level = level
+        if instructions is not None:
+            self.instructions = instructions
+        else :
+            self.instructions = []
+        self.failed_step = None
+        self.current_step = 0
+        self.error_message = 0
+    
+     #methods
+    
+    def run_all(self) -> bool:
+        """
+        Execute all program instructions in order until completion or an error occurs.
+
+        PRE:
+            - The program has at least one instructions (self.instructions is non-empty).
+            - The associated robot and level (grid, walls, gems, goal) are properly initialized.
+        POST:
+            - Sequentially executes all instructions in the program (RM-03).
+            - Updates the robot's state (position, direction) and execution state (current_step, failed_step, error_message).
+            - Stops if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
+            - Returns True if everything succeeds, False if an error occurs.
+        """
+        pass
+    
+    def run_step_by_step(self) -> bool:
+        """
+        Execute a single program instruction at the current step (current_step).
+
+        PRE:
+            - current_step must be a valid integer between 0 and len(self.instructions) - 1 (inclusive).
+            - The robot and level are initialized.
+        POST:
+            - Executes the instruction pointed to by self.current_step (RM-03).
+            - Increments self.current_step by 1 if instruction execution succeeds.
+            - Updates failed_step and error_message if a collision (RM-06) or going out of bounds occurs.
+            - Returns True if the step succeeds, False if blocked or on failure.
+        """
+        pass
+    
+    def reached(self) -> bool:
+        """
+        Check whether the robot has reached the level's goal position (arrival_position).
+
+        PRE:
+            - The level has a defined goal cell (arrival_position / RM-08).
+            - The robot's current position (robot.current_position) is initialized.
+        POST:
+            - Compares the robot's current position with the level's goal cell (D-01.3).
+            - Returns True if the coordinates match exactly, False otherwise.
+            Excptions:
+                - Raises TypeError if robot or robot.current_position is not defined (None).
+                - Raises ValueError if level has no arrival_position configured (None).
+        """
+        if self.robot is None or self.robot.curretnt_position is None:
+            raise TypeError("The robot's position is undefined.")
+        if self.level is None or self.level.arrival_position is None:
+            raise ValueError("No arrival point!")
+        
+        return (
+            self.robot.current_position.get_row() == self.level.arrival_position.get_row()
+            and
+            self.robot.current_position.get_column() == self.level.arrival_position.get_column()
+        )
     
 
 if __name__ == "__main__" :
