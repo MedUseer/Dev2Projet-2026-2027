@@ -110,22 +110,44 @@ class Level:
 #   ===== Execution Classes =====
 class Robot:
     # Init clockwise direction
-    clockwise_direction = ["up", "right", "down", "left"]       
+    __clockwise_direction = ["up", "right", "down", "left"]       
     
     def __init__(self, current_position : Position, direction : dico_direction = "up"):
         if direction not in dico_direction :
             raise ValueError(f"Direction invalide : {direction}")
-        self.current_position = current_position
-        self.direction = direction
-        self.collected_gems = 0
+        self.__current_position = current_position
+        self.__direction = direction
+        self.__collected_gems = 0
+    
+    #properties
+    @property
+    def current_position(self) -> Position:
+        return self.__current_position
+    
+    @current_position.setter
+    def current_position(self, new_position: Position):
+        self.__current_position = new_position
+    
+    @property
+    def direction(self) -> str:
+        return self.__direction
+    
+    @direction.setter
+    def direction(self, new_direction: str):
+        if new_direction not in dico_direction:
+            raise ValueError(f"Direction invalide : {new_direction}")
+        self.__direction = new_direction
+    
+    @property
+    def collected_gems(self) -> int:
+        return self.__collected_gems
     
     #methods
-    
     def get_direction_symbol(self) -> str:
         """
         
         """
-        return dico_direction[self.direction]
+        return dico_direction[self.__direction]
     
     def get_next_position(self) -> Position:
         """
@@ -134,13 +156,13 @@ class Robot:
         row = self.current_position.row
         col = self.current_position.column    
     
-        if self.direction == "up":
+        if self.__direction == "up":
             row -= 1
-        elif self.direction == "down":
+        elif self.__direction == "down":
             row += 1
-        elif self.direction == "left":
+        elif self.__direction == "left":
             col -= 1
-        elif self.direction == "right":
+        elif self.__direction == "right":
             col += 1
             
         return Position(row, col)
@@ -149,23 +171,23 @@ class Robot:
         """
 
         """
-        self.current_position = self.get_next_position()
+        self.__current_position = self.get_next_position()
         return True
 
     def turn_left(self) -> bool:
         """
 
         """
-        idx = self.clockwise_direction.index(self.direction)
-        self.direction = self.clockwise_direction[(idx - 1) % 4]    # formula magic for clockwise, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
+        idx = self.__clockwise_direction.index(self.__direction)
+        self.__direction = self.__clockwise_direction[(idx - 1) % 4]    # formula magic for clockwise, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
         return True
 
     def turn_right(self) -> bool:
         """
 
         """
-        idx = self.clockwise_direction.index(self.direction)
-        self.direction = self.clockwise_direction[(idx + 1) % 4]
+        idx = self.__clockwise_direction.index(self.__direction)
+        self.__direction = self.__clockwise_direction[(idx + 1) % 4]
         return True
 
     def collect_gems(self, type_cells: dico_type_cells) -> bool:
@@ -173,7 +195,7 @@ class Robot:
 
         """
         if type_cells == "gem":
-            self.collected_gems += 1
+            self.__collected_gems += 1
             return True
         return False
 
@@ -190,18 +212,54 @@ class Instruction:
 class Program:
     
     def __init__(self, robot : Robot, level : Level, instructions=None):
-        self.robot = robot
-        self.level = level
+        self.__robot = robot
+        self.__level = level
         if instructions is not None:
-            self.instructions = instructions
+            self.__instructions = instructions
         else :
-            self.instructions = []
-        self.failed_step = None
-        self.current_step = 0
-        self.error_message = ""
+            self.__instructions = []
+        self.__failed_step = None
+        self.__current_step = 0
+        self.__error_message = ""
     
-     #methods
+    #properties
+    @property
+    def robot(self) -> Robot:
+        return self.__robot
     
+    @property
+    def level(self) -> Level:
+        return self.__level
+    
+    @property
+    def instructions(self) -> list:
+        return self.__instructions
+    
+    @instructions.setter
+    def instructions(self, new_instructions: list):
+        self.__instructions = new_instructions
+    
+    @property
+    def failed_step(self):
+        return self.__failed_step
+    
+    @property
+    def current_step(self) -> int:
+        return self.__current_step
+    
+    @current_step.setter
+    def current_step(self, step: int):
+        self.__current_step = step
+        
+    @property
+    def error_message(self) -> str:
+        return self.__error_message
+    
+    @error_message.setter
+    def error_message(self, message: str):
+        self.__error_message = message
+    
+    #methods
     def run_step_by_step(self) -> bool:
         """
         Execute a single program instruction at the current step (current_step).
@@ -246,15 +304,15 @@ class Program:
                 - Raises TypeError if robot or robot.current_position is not defined (None).
                 - Raises ValueError if level has no arrival_position configured (None).
         """
-        if self.robot is None or self.robot.current_position is None:
+        if self.__robot is None or self.__robot.current_position is None:
             raise TypeError("The robot's position is undefined.")
-        if self.level is None or self.level.arrival_position is None:
+        if self.__level is None or self.__level.arrival_position is None:
             raise ValueError("No arrival point!")
         
         return (
-            self.robot.current_position.get_row() == self.level.arrival_position.get_row()
+            self.__robot.current_position.get_row() == self.__level.arrival_position.get_row()
             and
-            self.robot.current_position.get_column() == self.level.arrival_position.get_column()
+            self.__robot.current_position.get_column() == self.__level.arrival_position.get_column()
         )
     
 
@@ -283,7 +341,7 @@ if __name__ == "__main__" :
     print(f"pos after forward: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
     cell_type = level.grid.grid[robot.current_position.get_row()][robot.current_position.get_column()].get_type() 
     print(cell_type) # type of (3, 0) -> gem
-    print("gem:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
+    print("got gem?:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
 
     print("\n=== 3. turn right, left and reached ===")
     robot.turn_right()    # up -> right
