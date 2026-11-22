@@ -8,6 +8,10 @@ class GameInterface:
     def __init__(self) -> None:
         self.window = tk.Tk()
         self.font_text = tf.Font(family="Poppins",size=15)
+        self.type_cells = {
+            "" : "",
+            "robot":'🤖'
+        }
 
     def create_header(self,title):
 
@@ -26,7 +30,6 @@ class GameInterface:
         for row in range(len(grid)):
             for col in range(len(grid[row])):
 
-                cell = tk.Label(frame_grid,text="",width=6,height=3,relief="ridge") # create a cell            
+                cell = tk.Label(frame_grid,text=self.type_cells[grid[row][col].type_cell],width=6,height=3,relief="ridge") # create a cell            
                 cell.config(bg="white")
                 cell.grid(row=row,column=col)
-        
