@@ -25,7 +25,9 @@ dico_type_cells = {
 
 # temp MVP classes for testing
 class Position:
-
+    """
+    Temporary class Position, used only for local testing of F-03; replace when merging the code
+    """
     def __init__(self,row : int,column : int):
         self.row = row
         self.column = column
@@ -40,7 +42,9 @@ class Position:
 
 
 class Cell:
-    
+    """
+    Temporary class Cell, used only for local testing of F-03; replace when merging the code
+    """    
     def __init__(self,position : Position,type : dico_type_cells = "empty"):
         self.position = position
         self.type = type
@@ -51,7 +55,9 @@ class Cell:
 
 
 class Grid:
-
+    """
+    Temporary class Grid, used only for local testing of F-03; replace when merging the code
+    """
     def __init__(self,width:int = 5,height:int = 5 ):
 
         self.width = width
