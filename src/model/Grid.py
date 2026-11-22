@@ -1,4 +1,4 @@
-import Cell as c # import Cell module 
+from model import Cell as c # import Cell module 
 
 class Grid:
     """Represent a grid"""
@@ -37,3 +37,13 @@ class Grid:
             for col in range(self.__width):
                 cell = c.Cell() # create a cell
                 self.grid[row].append(cell)
+
+    def change_type_cell(self,row : int, col : int, new_type_cell) -> None:
+        """
+            PRE:
+            POST:
+        """
+        grid = self.grid
+        grid[row][col].type_cell = new_type_cell # change type of cell
+
+        
