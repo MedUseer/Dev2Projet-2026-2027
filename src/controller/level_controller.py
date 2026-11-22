@@ -37,3 +37,9 @@ def create_level(interface : GameInterface,level : Level) -> None:
     row_robot,col_robot = parsing(start_position,",")
     grid.grid[row_robot][col_robot].type_cell = "robot"
     interface.window.after(0,interface.create_grid,grid.grid)
+
+    arrival_position = input("Position d'arriver du robot (ex. 0,0) : ")
+    #error manage missed
+    row_robot_arrival,col_robot_arrival = parsing(arrival_position,",")
+    grid.grid[row_robot_arrival][col_robot_arrival].type_cell = "arrival"
+    interface.window.after(0,interface.create_grid,grid.grid)
