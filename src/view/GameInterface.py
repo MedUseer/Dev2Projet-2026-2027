@@ -11,7 +11,9 @@ class GameInterface:
         self.type_cells = {
             "" : "",
             "robot":'🤖',
-            "arrival" : 'ARRIVER'
+            "arrival" : 'ARRIVER',
+            'gem' : '🟢',
+            'wall' : '🧱'
         }
 
     def create_header(self,title):
