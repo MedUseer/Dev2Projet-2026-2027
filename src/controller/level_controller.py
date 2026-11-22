@@ -43,3 +43,21 @@ def create_level(interface : GameInterface,level : Level) -> None:
     row_robot_arrival,col_robot_arrival = parsing(arrival_position,",")
     grid.grid[row_robot_arrival][col_robot_arrival].type_cell = "arrival"
     interface.window.after(0,interface.create_grid,grid.grid)
+
+    gems_count = int(input("Nombres de gemmes à placer (ex. 3) : "))
+    #error manage missed
+    for g in range(1,gems_count+1):
+        position_gem = input(f"Position pour la gemme n°{g} (ex.1,2) : ")
+        row_gem,col_gem = parsing(position_gem,',')
+        #error manage missed
+        grid.grid[row_gem][col_gem].type_cell = "gem"
+        interface.window.after(0,interface.create_grid,grid.grid)
+
+    walls_count = int(input("Nombres de murs à place (ex.2) : "))
+    #error manage missed
+    for w in range(1,walls_count+1):
+        position_wall = input(f"Position pour la gemme n°{w} (ex.1,2) : ")
+        row_wall,col_wall = parsing(position_wall,',')
+        #error manage missed
+        grid.grid[row_wall][col_wall].type_cell = "wall"
+        interface.window.after(0,interface.create_grid,grid.grid)
