@@ -36,14 +36,6 @@ class Grid:
 
             for col in range(self.__width):
                 cell = c.Cell() # create a cell
+                cell.type_cell = "" # type empty
                 self.grid[row].append(cell)
-
-    def change_type_cell(self,row : int, col : int, new_type_cell) -> None:
-        """
-            PRE:
-            POST:
-        """
-        grid = self.grid
-        grid[row][col].type_cell = new_type_cell # change type of cell
-
         
