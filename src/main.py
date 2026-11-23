@@ -158,3 +158,22 @@ class GameInterface:
         # button run complete and run step by step
         print("\n",emoji.emojize(":play_button:")," lancement complet") 
         print("\n",emoji.emojize(":gear:")," pas suivant","\n")
+
+
+class Instruction:
+    type = {
+       "forward": emoji.emojize(":footprints:"),
+        "turn_left": emoji.emojize(":left_arrow:"),
+        "turn_right": emoji.emojize(":right_arrow:"),
+        "collect": emoji.emojize(":raised_hand:"),
+        "repeat": emoji.emojize(":counterclockwise_arrows_button:"),
+    }
+
+
+class Program:
+    def __init__(self):
+        self.instructions = []
+
+    def add_instruction(self, instrution_name: Instruction):
+        self.instructions.append(instrution_name)
+        print(self.instructions)
