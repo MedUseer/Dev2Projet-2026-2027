@@ -179,3 +179,8 @@ class Program:
 
     def remove_instruction(self, instruction_number: int):
         self.instructions.pop(instruction_number)
+
+    def move_instruction(self, instruction_nbr1: int, instruction_nbr2: int):
+        nbr_temp = self.instructions[instruction_nbr1]
+        self.instructions[instruction_nbr1] = self.instructions[instruction_nbr2]
+        self.instructions[instruction_nbr2] = nbr_temp
