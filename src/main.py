@@ -176,4 +176,6 @@ class Program:
 
     def add_instruction(self, instrution_name: Instruction):
         self.instructions.append(instrution_name)
-        print(self.instructions)
+
+    def remove_instruction(self, instruction_number: int):
+        self.instructions.pop(instruction_number)
