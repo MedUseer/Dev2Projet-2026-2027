@@ -6,3 +6,7 @@ class NotType(Exception):
 class DimensionsGridError(Exception):
     """ """
     pass
+
+class NotAllowedDomainError(Exception):
+    """ """
+    pass
