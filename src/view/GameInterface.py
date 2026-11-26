@@ -6,6 +6,7 @@ class GameInterface:
     """Represent a GUI interface"""
 
     def __init__(self) -> None:
+
         self.window = tk.Tk()
         self.font_text = tf.Font(family="Poppins",size=15)
         self.type_cells = {
@@ -15,10 +16,21 @@ class GameInterface:
             'gem' : '🟢',
             'wall' : '🧱'
         }
+
+        self.instructions_match = {
+            'a':'⬆️',
+            'd':'➡️',
+            'g':'⬅️',
+            'r':'🔄'
+        }
+        self.buttons_icons = {
+            "complete": '▶️',
+            "step": '⚙️'
+        }
         self.frame_header = tk.Frame(self.window,relief="ridge",borderwidth=5,width=600,height=200)
         self.frame_main = tk.Frame(self.window,relief="ridge",borderwidth=5,width=600,height=400)
         self.frame_footer = tk.Frame(self.window,relief="ridge",borderwidth=5,width=600,height=200)
-        
+
     def create_header(self,title : str, get_state_level : str) -> None:
         self.frame_header.pack_propagate(False)
         self.frame_header.config(bg="blue")
@@ -33,7 +45,7 @@ class GameInterface:
         title.pack(pady=20)
         instructions_count.pack(padx=10,side="right")
 
-    def create_grid(self,grid : Grid) -> None:
+    def create_grid_main(self,grid : Grid) -> None:
 
         self.frame_main.pack_propagate(False)
         self.frame_main.config(bg="red")
