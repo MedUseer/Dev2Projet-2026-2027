@@ -24,95 +24,87 @@ dico_type_cells = {
 } 
 
 # temp MVP classes for testing
-class Position:
-    """
-    Temporary class Position, used only for local testing of F-03; replace when merging the code
-    """
-    def __init__(self,row : int,column : int):
-        self.row = row
-        self.column = column
-
-    #methods
-    
-    def get_row(self):
-        return self.row
-    
-    def get_column(self):
-        return self.column
-
-
 class Cell:
     """
     Temporary class Cell, used only for local testing of F-03; replace when merging the code
     """    
-    def __init__(self,position : Position,type : dico_type_cells = "empty"):
-        self.position = position
-        self.type = type
+    def __init__(self, type_cell : str = "empty") -> None:
+        self.__type_cell = type_cell
 
-    #methods
-    def get_type(self):
-        return self.type
-
+    #properties
+    @property
+    def type_cell (self) -> str:
+        return self.__type_cell
+    @type_cell.setter
+    def type_cell(self, value: str) -> None:
+        self.__type_cell = value
 
 class Grid:
     """
     Temporary class Grid, used only for local testing of F-03; replace when merging the code
     """
-    def __init__(self,width:int = 5,height:int = 5 ):
+    def __init__(self,width:int = 5,height:int = 5 ) -> None:
 
-        self.width = width
-        self.height = height
-        self.grid = Grid
+        self.__height = height
+        self.__width = width
+        self.grid = []
+
+    #properties
+    @property
+    def height(self) -> int:
+        return self.__height
+
+    @property
+    def width(self) -> int:
+        return self.__width
 
     #methods
-
-    def get_init_grid(self):
-    
-        grid = []
-
-        for row in range(self.height):
-            grid.append([])
-            for col in range(self.width):
-                position_cell = Position(row,col) # create a position cell
-                cell = Cell(position_cell,"empty") # create a cell
-                grid[row].append(cell) # add each cell on array
-                
-        self.grid = grid 
-
-        return self.grid
-
-    def set_element_position(self,row : int ,col : int,new_type : dico_type_cells = "empty" ):    
-
-        if new_type != "empty":
-            self.grid[row][col].type = new_type # change the type of cell Object
-        
-        return  f"| {dico_type_cells[self.grid[row][col].type]} |" 
+    def init_grid(self) -> None:
+        """Init the grid with cell"""
+        for row in range(self.__height):
+            self.grid.append([])
+            for col in range(self.__width):
+                cell = Cell()  
+                cell.type_cell = "empty" 
+                self.grid[row].append(cell)
 
 class Level:
     """
     Temporary class Level, used only for local testing of F-03; replace when merging the code
     """
-    def __init__(self, grid: Grid, start_position: Position, arrival_position: Position):
-        self.grid = grid
-        self.start_position = start_position
-        self.arrival_position = arrival_position
+    def __init__(self) -> None:
+        self.grid = [[]]
+        self.start_position = (4, 0)
+        self.arrival_position = (0, 0)
 
-    def is_position_valid(self, position: Position) -> bool:
-        row = position.get_row()
-        col = position.get_column()
-        if not (0 <= row < self.grid.height and 0 <= col < self.grid.width):
-            return False
-        return self.grid.grid[row][col].get_type() != "wall"
+    #properties
+    @property
+    def grid(self) -> list[list]:
+        return self.__grid
+    @grid.setter
+    def grid(self, value: list[list]) -> None:
+        self.__grid = value
 
+    @property
+    def start_position(self) -> tuple:
+        return self.__start_position
+    @start_position.setter
+    def start_position(self, value: tuple) -> None:
+        self.__start_position = value
+
+    @property
+    def arrival_position(self) -> tuple:
+        return self.__arrival_position
+    @arrival_position.setter
+    def arrival_position(self, value: tuple) -> None:
+        self.__arrival_position = value
 
 
 
 #   ===== Execution Classes =====
-class Robot:
-    # Init clockwise direction
-    __clockwise_direction = ["up", "right", "down", "left"]       
+class Robot:  
     
-    def __init__(self, current_position : Position, direction : dico_direction = "up"):
+    def __init__(self, current_position : tuple[int, int], direction : str = "up"):
         if direction not in dico_direction :
             raise ValueError(f"Direction invalide : {direction}")
         self.__current_position = current_position
@@ -121,17 +113,15 @@ class Robot:
     
     #properties
     @property
-    def current_position(self) -> Position:
+    def current_position(self) -> tuple[int, int]:
         return self.__current_position
-    
     @current_position.setter
-    def current_position(self, new_position: Position):
+    def current_position(self, new_position: tuple[int, int]):
         self.__current_position = new_position
     
     @property
     def direction(self) -> str:
         return self.__direction
-    
     @direction.setter
     def direction(self, new_direction: str):
         if new_direction not in dico_direction:
@@ -144,28 +134,25 @@ class Robot:
     
     #methods
     def get_direction_symbol(self) -> str:
-        """
-        
-        """
         return dico_direction[self.__direction]
     
-    def get_next_position(self) -> Position:
+    def get_next_position(self) -> tuple[int, int]:
         """
         
         """
-        row = self.current_position.row
-        col = self.current_position.column    
-    
-        if self.__direction == "up":
-            row -= 1
-        elif self.__direction == "down":
-            row += 1
-        elif self.__direction == "left":
-            col -= 1
-        elif self.__direction == "right":
-            col += 1
+        row, col = self.__current_position  
+
+        match self.__direction :
+            case "up" :
+                row -= 1
+            case "down":
+                row += 1
+            case "left" :
+                col -= 1
+            case "right" :
+                col += 1
             
-        return Position(row, col)
+        return (row, col)
     
     def move_forward(self) -> bool:
         """
@@ -178,19 +165,37 @@ class Robot:
         """
 
         """
-        idx = self.__clockwise_direction.index(self.__direction)
-        self.__direction = self.__clockwise_direction[(idx - 1) % 4]    # formula magic for clockwise, ( 0(= up) - 1 ) % 4 = -1 % 4 = 3(= left)
+        match self.__direction:
+            case "up":
+                self.__direction = "left"
+            case "left":
+                self.__direction = "down"
+            case "down":
+                self.__direction = "right"
+            case "right":
+                self.__direction = "up"
+            case _:
+                return False
         return True
 
     def turn_right(self) -> bool:
         """
 
         """
-        idx = self.__clockwise_direction.index(self.__direction)
-        self.__direction = self.__clockwise_direction[(idx + 1) % 4]
+        match self.__direction:
+            case "up":
+                self.__direction = "right"
+            case "right":
+                self.__direction = "down"
+            case "down":
+                self.__direction = "left"
+            case "left":
+                self.__direction = "up"
+            case _:
+                return False
         return True
 
-    def collect_gems(self, type_cells: dico_type_cells) -> bool:
+    def collect_gems(self, type_cells: str) -> bool:
         """
 
         """
@@ -198,16 +203,6 @@ class Robot:
             self.__collected_gems += 1
             return True
         return False
-
-class Instruction:
-    def __init__(self, repeat_count:int, children_instructions : list, type : instructions_type = "forward") :
-        self.type = type
-        self.repeat_count = repeat_count
-        self.children_instructions = children_instructions
-
-     #  instruction list format --> instruction = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
-     
-     #methods
 
 class Program:
     
@@ -234,7 +229,6 @@ class Program:
     @property
     def instructions(self) -> list:
         return self.__instructions
-    
     @instructions.setter
     def instructions(self, new_instructions: list):
         self.__instructions = new_instructions
@@ -246,15 +240,13 @@ class Program:
     @property
     def current_step(self) -> int:
         return self.__current_step
-    
     @current_step.setter
     def current_step(self, step: int):
         self.__current_step = step
         
     @property
     def error_message(self) -> str:
-        return self.__error_message
-    
+        return self.__error_message   
     @error_message.setter
     def error_message(self, message: str):
         self.__error_message = message
@@ -309,45 +301,50 @@ class Program:
         if self.__level is None or self.__level.arrival_position is None:
             raise ValueError("No arrival point!")
         
-        return (
-            self.__robot.current_position.get_row() == self.__level.arrival_position.get_row()
-            and
-            self.__robot.current_position.get_column() == self.__level.arrival_position.get_column()
-        )
+        return self.__robot.current_position == self.__level.arrival_position
     
 
 if __name__ == "__main__" :
     
     # 5x5，depart (4, 0)，arrival (3, 1)， gem(3, 0)）
     grid = Grid(5, 5)
-    grid.get_init_grid()
-    grid.set_element_position(3, 0, "gem")
-    grid.set_element_position(2, 2, "wall")
-    grid.set_element_position(3, 1, "arrival")
+    grid.init_grid()
+    grid.grid[3][0].type_cell = "gem"
+    grid.grid[2][2].type_cell = "wall"
+    grid.grid[3][1].type_cell = "arrival"
 
-    level = Level(grid, start_position=Position(4, 0), arrival_position=Position(3, 1))
-    robot = Robot(current_position=Position(4, 0), direction="up")
+    level = Level()
+    level.grid = grid.grid          # list[list]
+    level.start_position = (4, 0)
+    level.arrival_position = (3, 1)
+    
+    robot = Robot(current_position=level.start_position, direction="up")
 
     raw_instructions = ["forward", "turn_left", "turn_right", "collect", [2, "forward"]]
     prog = Program(robot=robot, level=level, instructions=raw_instructions)
 
+
+    def robot_status(r: Robot) -> str:
+        return f"{r.current_position} {r.get_direction_symbol()}"
+
     print("=== 1. Init ===")
     print(prog.instructions)
-    print(f"robot pos init: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
+    print("robot pos init:", robot_status(robot))
     print("reached?:", prog.reached())  # -> False
 
     print("\n=== 2. forward and collect ===")
     robot.move_forward()  # (4, 0) -> (3, 0)
-    print(f"pos after forward: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
-    cell_type = level.grid.grid[robot.current_position.get_row()][robot.current_position.get_column()].get_type() 
-    print(cell_type) # type of (3, 0) -> gem
+    print("pos after forward:", robot_status(robot))
+    row, col = robot.current_position
+    cell_type = level.grid[row][col].type_cell 
+    print(cell_type)  # type of (3, 0) -> gem
     print("got gem?:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
 
     print("\n=== 3. turn right, left and reached ===")
     robot.turn_right()    # up -> right
     print("direction after turn right:", robot.direction, robot.get_direction_symbol())
     robot.move_forward()  # (3, 0) -> (3, 1) arrival
-    print(f"pos after forward: ({robot.current_position.get_row()}, {robot.current_position.get_column()}) {robot.get_direction_symbol()}")
+    print("pos after forward:", robot_status(robot))
     print("reached? :", prog.reached())  # -> True
 
     robot.turn_left()     # right -> up
