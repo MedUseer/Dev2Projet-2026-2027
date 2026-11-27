@@ -369,7 +369,12 @@ if __name__ == "__main__" :
     row, col = robot.current_position
     cell_type = level.grid[row][col].type_cell 
     print(cell_type)  # type of (3, 0) -> gem
-    print("got gem?:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
+    
+    got_gem = robot.collect_gems(cell_type)
+    if got_gem:
+        # Simulates Program.run_step_by_step(), turn "gem" to "empty" after collect
+        level.grid[row][col].type_cell = "empty" 
+    print("got gem?:", got_gem, "| gems collected:", robot.collected_gems)
 
 
     print("\n=== 3. turn right, left and reached ===")
@@ -386,3 +391,25 @@ if __name__ == "__main__" :
     
     print("\n=== 4. gem status and reset ===")
     print("is collected gem still in grid? :", grid.grid[3][0].type_cell)   # type of (3, 0) -> empty
+    
+    # Simulate re-loading an initial level
+    new_grid = Grid(5, 5)
+    new_grid.init_grid()
+    new_grid.grid[3][0].type_cell = "gem"
+    new_grid.grid[2][2].type_cell = "wall"
+    new_grid.grid[3][1].type_cell = "arrival"
+
+    new_level = Level()
+    new_level.grid = new_grid.grid
+    new_level.start_position = (4, 0)
+    new_level.arrival_position = (3, 1)
+    
+    prog.current_step = 3   #change for verify reset
+    
+    prog.reset(new_level)
+    print("after reset - robot pos:", robot_status(robot))                     # -> (4, 0) ⬆︎
+    print("after reset - gems collected:", robot.collected_gems)               # -> 0
+    print("after reset - gem back in grid?:", prog.level.grid[3][0].type_cell) # -> gem
+    print("after reset - current_step:", prog.current_step)                    # -> 0
+    print("after reset - reached?:", prog.reached())                           # -> False
+    print("after reset - instructions kept?:", prog.instructions)              # -> no change
