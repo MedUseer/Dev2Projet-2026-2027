@@ -409,7 +409,7 @@ if __name__ == "__main__" :
     prog.reset(new_level)
     print("after reset - robot pos:", robot_status(robot))                     # -> (4, 0) ⬆︎
     print("after reset - gems collected:", robot.collected_gems)               # -> 0
-    print("after reset - gem back in grid?:", prog.level.grid[3][0].type_cell) # -> gem
+    print("after reset - gem back in grid?:", prog.level.grid[3][0].type_cell) # type of (3, 0) -> gem
     print("after reset - current_step:", prog.current_step)                    # -> 0
     print("after reset - reached?:", prog.reached())                           # -> False
     print("after reset - instructions kept?:", prog.instructions)              # -> no change
