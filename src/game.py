@@ -104,7 +104,7 @@ class Level:
 #   ===== Execution Classes =====
 class Robot:  
     
-    def __init__(self, current_position : tuple[int, int], direction : str = "up"):
+    def __init__(self, current_position : tuple[int, int], direction : str = "up") -> None:
         if direction not in dico_direction :
             raise ValueError(f"Direction invalide : {direction}")
         self.__current_position = current_position
@@ -116,14 +116,14 @@ class Robot:
     def current_position(self) -> tuple[int, int]:
         return self.__current_position
     @current_position.setter
-    def current_position(self, new_position: tuple[int, int]):
+    def current_position(self, new_position: tuple[int, int]) -> None:
         self.__current_position = new_position
     
     @property
     def direction(self) -> str:
         return self.__direction
     @direction.setter
-    def direction(self, new_direction: str):
+    def direction(self, new_direction: str) -> None:
         if new_direction not in dico_direction:
             raise ValueError(f"Direction invalide : {new_direction}")
         self.__direction = new_direction
@@ -272,15 +272,26 @@ class Program:
         Execute all program instructions in order until completion or an error occurs.
 
         PRE:
-            - The program has at least one instructions (self.instructions is non-empty).
+            - self.instructions is a list of instructions (may be empty).
             - The associated robot and level (grid, walls, gems, goal) are properly initialized.
         POST:
             - Sequentially executes all instructions in the program (RM-03).
-            - Updates the robot's state (position, direction) and execution state (current_step, failed_step, error_message).
-            - Stops if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
-            - Returns True if everything succeeds, False if an error occurs.
+            - Updates the robot's state (current_position, direction) and execution state (current_step, failed_step, error_message).
+            - Stops immediately if the robot hits a wall (RM-06) or goes out of bounds of the grid (RM-01).
+            - Returns True if all instructions succeed.
+            - Returns False if the instruction list is empty (CA-03.4) or if an error occurs.
+            Exceptions:
+                - Raises TypeError if robot or level is None.
         """
-        pass
+        if self.__robot is None or self.__level is None:
+            raise TypeError("Robot and level not initialized.")
+        if not self.__instructions:
+            return False
+        
+        while self.__current_step < len(self.__instructions):
+            if not self.run_step_by_step():
+                return False
+            return True
     
     def reached(self) -> bool:
         """
@@ -332,6 +343,7 @@ if __name__ == "__main__" :
     print("robot pos init:", robot_status(robot))
     print("reached?:", prog.reached())  # -> False
 
+
     print("\n=== 2. forward and collect ===")
     robot.move_forward()  # (4, 0) -> (3, 0)
     print("pos after forward:", robot_status(robot))
@@ -340,12 +352,18 @@ if __name__ == "__main__" :
     print(cell_type)  # type of (3, 0) -> gem
     print("got gem?:", robot.collect_gems(cell_type), "| gems collected:", robot.collected_gems)
 
+
     print("\n=== 3. turn right, left and reached ===")
     robot.turn_right()    # up -> right
     print("direction after turn right:", robot.direction, robot.get_direction_symbol())
+    
     robot.move_forward()  # (3, 0) -> (3, 1) arrival
     print("pos after forward:", robot_status(robot))
-    print("reached? :", prog.reached())  # -> True
-
+    
     robot.turn_left()     # right -> up
     print("direction after turn left:", robot.direction, robot.get_direction_symbol())
+    print("reached? :", prog.reached())  # -> True
+    
+    
+    print("\n=== 4. gem status and reset ===")
+    print("is collected gem still in grid? :", grid.grid[3][0].type_cell)   # type of (3, 0) -> empty
