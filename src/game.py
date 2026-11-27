@@ -209,7 +209,7 @@ class Robot:
 
 class Program:
     
-    def __init__(self, robot : Robot, level : Level, instructions=None):
+    def __init__(self, robot : Robot, level : Level, instructions: list = None):
         self.__robot = robot
         self.__level = level
         if instructions is not None:
@@ -292,9 +292,11 @@ class Program:
             return False
         
         while self.__current_step < len(self.__instructions):
-            if not self.run_step_by_step():
+            # Execute the current step and check if it succeeded
+            step_successed = self.run_step_by_step()
+            if not step_successed :
                 return False
-            return True
+        return True
     
     def reached(self) -> bool:
         """
@@ -317,7 +319,21 @@ class Program:
         
         return self.__robot.current_position == self.__level.arrival_position
     
+    def reset(self, new_Level : Level) -> None:
+        """
+        Reset the level, robot position/state, and execution progress while keeping instructions.
+        """
+        self.__level = new_Level
+        self.__current_step = 0
+        self.__failed_step = None
+        self.__error_message = ""
+        
+        if self.__robot is not None:
+            self.__robot.current_position = self.__level.start_position
+            self.__robot.direction = "up"
+            self.__robot.reset_gems()
 
+#demo
 if __name__ == "__main__" :
     
     # 5x5，depart (4, 0)，arrival (3, 1)， gem(3, 0)）
