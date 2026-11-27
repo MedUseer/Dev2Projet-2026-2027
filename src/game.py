@@ -203,6 +203,9 @@ class Robot:
             self.__collected_gems += 1
             return True
         return False
+    
+    def reset_gems(self) -> None:
+        self.__collected_gems = 0
 
 class Program:
     
